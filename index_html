@@ -1,0 +1,673 @@
+import React, { useState } from 'react';
+import { 
+  Activity, 
+  Layers, 
+  Thermometer, 
+  Database, 
+  Cpu, 
+  Map, 
+  ArrowRight, 
+  X, 
+  Calculator, 
+  TrendingUp,
+  Globe,
+  Zap,
+  Code,
+  Terminal,
+  Image as ImageIcon,
+  BookOpen,
+  Wrench,
+  Mic2,
+  Users
+} from 'lucide-react';
+
+const App = () => {
+  const [activeTab, setActiveTab] = useState('knowledge'); // 'knowledge', 'skills', 'speeches'
+  const [selectedCard, setSelectedCard] = useState(null);
+
+  // --- 1. 學科知識模組 (Knowledge Modules) ---
+  const knowledgeProjects = [
+    {
+      id: 'k1',
+      title: "校園淺層構造解密",
+      subtitle: "第九組震測實驗報告",
+      week: "Week 3",
+      tags: ["Seismic", "Field Work"],
+      icon: <Activity className="w-6 h-6 text-cyan-400" />,
+      color: "from-cyan-500 to-blue-500",
+      summary: "使用 24 個 Geophone 進行折射震測，解析地下雙層構造。",
+      content: {
+        intro: "利用折射震測法 (Refraction Seismic)，探測學校圖書館後方測區的淺層地下構造。本次實驗佈設了一條長度 46 公尺的測線，旨在計算近地表波速並推估地層分層。",
+        sections: [
+          { 
+            title: "儀器設備", 
+            text: "1. 震測主機 (Seismograph): 核心記錄系統，接收 24 道訊號。\n2. 檢波器 (Geophones): 24 顆，負責將地面振動轉換為電壓訊號。\n3. 震源: 12磅鐵鎚與鐵板，產生人工 P 波。\n4. 線纜: 橘色主線纜與黃色連接線。\n5. 測距輪/皮尺: 確保測站間距精確。" 
+          },
+          { 
+            title: "實驗過程", 
+            text: "1. 測線佈設: 由北向南佈設 46m 測線。\n2. 儀器架設: 每隔 2 公尺插入一支檢波器，共 24 支。\n3. 震源激發: 於特定位置 (0m, 6m, 12m...) 敲擊鐵板觸發訊號。\n4. 數據採集: 取樣間隔 0.25ms，記錄震波走時。" 
+          },
+          { 
+            title: "數據分析", 
+            text: "透過讀取初達波 (First arrival) 繪製 T-X 圖。觀察到明顯的折射轉折點 (Crossover distance)。\n\n- 第一層斜率分析: 對應直達波，計算出 V1。\n- 第二層斜率分析: 對應折射波，計算出 V2。\n- 截距時間法 (Intercept Time): 利用 Ti 計算第一層厚度 H。" 
+          }
+        ],
+        data: [
+          { label: "第一層波速 (V1)", value: "400 m/s" },
+          { label: "第二層波速 (V2)", value: "1500 m/s" },
+          { label: "估算深度 (H)", value: "4.21 m" },
+        ],
+        insight: "實驗中發現校園旁馬路的車輛震動會形成背景噪訊，影響訊號判讀。建議未來可採用多次疊加 (Stacking) 技術來提升訊噪比 (SNR)。",
+        toolType: "refraction_calc",
+        images: [
+          {
+            url: "https://github.com/chilin2tb-stack/finalterm_report_draft_U11104006/blob/main/put_Geophone.png?raw=true",
+            caption: "儀器架設：組員佈設檢波器 (Geophone)"
+          },
+          {
+            url: "https://github.com/chilin2tb-stack/finalterm_report_draft_U11104006/blob/main/tap.jpg?raw=true",
+            caption: "震源激發：使用鐵鎚敲擊鐵板產生震波"
+          }
+        ]
+      }
+    },
+    {
+      id: 'k2',
+      title: "深層地熱探勘藍圖",
+      subtitle: "臺東延平案場分析",
+      week: "Week 13",
+      tags: ["Geothermal", "MT Survey"],
+      icon: <Thermometer className="w-6 h-6 text-orange-400" />,
+      color: "from-orange-500 to-red-600",
+      summary: "結合大地電磁 (MT) 與地球化學，建構「地熱香菇」概念模型。",
+      content: {
+        intro: "本專案展示了一套解鎖臺灣深層地熱潛能的系統化方法。以臺東延平案場為例，整合地質、地球化學與地球物理數據，成功定位深部熱源。",
+        sections: [
+          { 
+            title: "地質背景", 
+            text: "調查區主要地層為厚層變質砂岩與黑色板岩。線型分析顯示此區具備東西向及南北向的複雜斷裂系統，為熱液循環提供了良好的通道。" 
+          },
+          { 
+            title: "探勘方法", 
+            text: "1. 地球物理: 佈設 47 個大地電磁 (MT) 測站，進行三維電阻率逆推。\n2. 地球化學: 分析溫泉露頭與井下流體的氫氧同位素與氦同位素，確認熱源來自深部地殼甚至地函成分。" 
+          },
+          {
+            title: "地熱香菇模型 (Mushroom Model)",
+            text: "- 菇柄 (Upflow Zone): 高溫熱流體沿斷層裂隙快速上湧的低電阻通道 (UF02)。\n- 菇傘 (Outflow Zone): 熱水到達淺層後向側向擴散並與冷水混合的區域。\n- 結論: 最佳鑽井目標應為深部的「菇柄」而非地表的「菇傘」。"
+          }
+        ],
+        highlights: [
+          "模型驗證：延平一號井 (YP01) 實測溫度與 MT 低電阻區吻合。",
+          "關鍵數據：800m 深處測得 144°C 高溫。",
+          "開發潛力：儲集層厚度估計達 250m 以上。"
+        ],
+        insight: "此案例建立的「探勘-建模-鑽井驗證」流程，可作為臺灣其他地熱區的開發範本。",
+        hasImagePlaceholder: true
+      }
+    },
+    {
+      id: 'k4',
+      title: "地球的脈動：地殼熱流",
+      subtitle: "熱傳導與地球熱預算",
+      week: "Week 6-12",
+      tags: ["Heat Flow", "Tectonics"],
+      icon: <Zap className="w-6 h-6 text-yellow-400" />,
+      color: "from-yellow-500 to-amber-600",
+      summary: "揭示驅動板塊構造與深海環流的隱形引擎：47 TW 的能量。",
+      content: {
+        intro: "地球內部熱能是驅動所有地質活動的根本力量。本單元探討熱能的來源、傳輸機制及其全球性的影響。",
+        sections: [
+          { 
+            title: "熱能來源", 
+            text: "地球是一個巨大的熱引擎，總功率約 47 TW。能量來源主要由兩者均分：\n1. 原始熱 (Primordial Heat): 行星吸積與地核形成時遺留的熱能。\n2. 放射性熱 (Radiogenic Heat): 地殼與地函中 U-238, Th-232, K-40 等同位素衰變產生。" 
+          },
+          { 
+            title: "熱傳輸機制", 
+            text: "- 地函對流 (Mantle Convection): 驅動板塊運動的主要機制。\n- 地殼傳導 (Crustal Conduction): 熱量穿過剛性岩石圈的方式，遵循傅立葉定律 (Fourier's Law)。" 
+          },
+          {
+            title: "全球熱流分佈",
+            text: "海洋地殼平均熱流 (101 mW/m²) 顯著高於大陸地殼 (65 mW/m²)。這是因為海洋地殼較薄且年輕，直接受地函冷卻影響；大陸地殼雖富含放射性元素，但岩石圈較厚，熱傳導效率較低。"
+          }
+        ],
+        formula: "q = -k (dT/dz)",
+        highlights: [
+          "全球總熱預算：47 ± 2 TW",
+          "測量技術：海洋深水探針 vs 大陸精密溫度測井",
+          "氣候影響：海底地熱加熱底層海水，強化 AABW 生成"
+        ],
+        insight: "地熱不僅是能源，更是維持地球適居性與驅動深海洋流循環的關鍵隱形推手。",
+        hasImagePlaceholder: true
+      }
+    },
+    {
+      id: 'k5',
+      title: "重力與磁力異常分析",
+      subtitle: "Blogspot 學習歷程",
+      week: "Week 6-7",
+      tags: ["Gravity", "Magnetic"],
+      icon: <Globe className="w-6 h-6 text-pink-400" />,
+      color: "from-pink-500 to-rose-600",
+      summary: "從重力探勘到板塊構造的幾何解析。",
+      content: {
+        intro: "重力與磁力探勘屬於位場 (Potential Field) 方法，能在不破壞地表的情況下偵測深部構造特徵。",
+        sections: [
+          { 
+            title: "重力探勘原理", 
+            text: "利用岩石密度差異造成的重力異常來推測地下構造。需要進行一系列修正（自由空間修正、布蓋修正、地形修正）才能得到反映地下地質的布蓋異常 (Bouguer Anomaly)。" 
+          },
+          { 
+            title: "地磁與板塊構造", 
+            text: "海底擴張學說的重要證據來自於地磁條帶 (Magnetic Stripes)。當新地殼在中洋脊生成時，會記錄當下的地磁方向，形成對稱的正反磁極條帶。" 
+          }
+        ],
+        highlights: [
+          "布蓋異常：負值通常對應山根或低密度沉積盆地。",
+          "應用：偵測斷層位置、基盤深度與礦產探勘。"
+        ],
+        insight: "重磁資料通常與震測資料互補，提供更全面的地下構造幾何約束。",
+        hasImagePlaceholder: true
+      }
+    }
+  ];
+
+  // --- 2. 技能工具箱 (Skills Toolbox) - 暫時保留架構 ---
+  const skillProjects = [
+    {
+      id: 's1',
+      title: "Python 環境建置",
+      subtitle: "基礎設施與協作工具",
+      week: "Week 1",
+      tags: ["Environment", "GitHub"],
+      icon: <Terminal className="w-6 h-6 text-emerald-400" />,
+      color: "from-emerald-500 to-teal-600",
+      summary: "建立地球物理資料科學的基礎設施：Colab, Git, Dify。",
+      content: { intro: "（資料整理中...）", sections: [], highlights: [] }
+    },
+    {
+      id: 's2',
+      title: "PyGMT 地圖繪製",
+      subtitle: "地理資訊視覺化",
+      week: "Week 2, 9, 10",
+      tags: ["PyGMT", "Visualization"],
+      icon: <Map className="w-6 h-6 text-blue-400" />,
+      color: "from-blue-500 to-cyan-600",
+      summary: "使用 PyGMT 繪製高品質地形圖、震央分佈圖與板塊邊界。",
+      content: { intro: "（資料整理中...）", sections: [], highlights: [] }
+    },
+    {
+      id: 's3',
+      title: "ObsPy 地震資料處理",
+      subtitle: "波形分析與訊號處理",
+      week: "Week 2, 11, 12",
+      tags: ["ObsPy", "Seismology"],
+      icon: <Activity className="w-6 h-6 text-red-400" />,
+      color: "from-red-500 to-orange-600",
+      summary: "讀取地震波形 (mseed)，進行濾波、去儀器響應與震相挑選。",
+      content: { intro: "（資料整理中...）", sections: [], highlights: [] }
+    },
+    {
+      id: 's4',
+      title: "AI 工具整合",
+      subtitle: "Gemini & Dify",
+      week: "Week 7, 13",
+      tags: ["LLM", "API"],
+      icon: <Cpu className="w-6 h-6 text-violet-400" />,
+      color: "from-violet-500 to-purple-600",
+      summary: "串接 Gemini API 進行文本分析，利用 Dify 建立知識庫問答系統。",
+      content: { intro: "（資料整理中...）", sections: [], highlights: [] }
+    }
+  ];
+
+  // --- 3. 大師開講 (Guest Speeches) ---
+  const speechProjects = [
+    {
+      id: 'sp1',
+      title: "AI 遇上地震學",
+      subtitle: "甘禮有 博士 (Dr. Gan Liyou)",
+      week: "Week 15 (Homework 6)",
+      tags: ["AI", "FWI", "Seismology"],
+      icon: <Mic2 className="w-6 h-6 text-purple-400" />,
+      color: "from-purple-500 to-indigo-600",
+      summary: "從醫學成像到地球透視：全波形逆推 (FWI) 與深度學習的革命。",
+      content: {
+        intro: "甘禮有博士生動地將地震學比喻為地球的斷層掃描 (CT Scan)。演講重點在於如何利用先進的計算技術與 AI，突破傳統震測成像的極限。",
+        sections: [
+          {
+            title: "核心概念：層析成像",
+            text: "區分「正演問題 (Forward)」與「逆推問題 (Inverse)」。正演是從模型預測數據，逆推則是從數據還原模型。地震學的挑戰在於利用有限的地表觀測，解出複雜的地下三維結構。"
+          },
+          {
+            title: "全波形逆推 (FWI)",
+            text: "不同於傳統只使用走時 (Travel time)，FWI 利用波形的振幅、相位等完整資訊，能解析出更高解析度的構造（如岩漿庫、俯衝帶細節）。"
+          },
+          {
+            title: "AI 與計算挑戰",
+            text: "由於 FWI 運算量極大，需要依賴 GPU 平行運算。甘博士也提到「週期跳躍 (Cycle-skipping)」等數學難題，並展望利用 AI 自動學習震波特徵，建立即時監測系統。"
+          }
+        ],
+        highlights: [
+          "觀測案例：Cascadia 俯衝帶、台灣大屯火山群與龜山島。",
+          "技術關鍵：模型共變矩陣、GPU 加速。",
+          "未來展望：地震學與 GIS/AI 的跨域整合。"
+        ],
+        insight: "「地球科學的研究，其實充滿了創新與想像的空間。」——將不可見的地下世界數據化、視覺化。",
+        hasImagePlaceholder: true
+      }
+    },
+    {
+      id: 'sp2',
+      title: "地球物理學的實際應用",
+      subtitle: "黃有志 博士 (Dr. Huang Youzhi)",
+      week: "Week 14",
+      tags: ["Volcano", "Earthquake", "Field Trip"],
+      icon: <Mic2 className="w-6 h-6 text-rose-400" />,
+      color: "from-rose-500 to-pink-600",
+      summary: "從阿蘇火山、熊本地震到嘉南地震觀測：談旅日經驗與實務應用。",
+      content: {
+        intro: "黃有志博士分享了他在日本與台灣豐富的野外觀測經驗，探討地球物理學如何應用於實際的災害監測與風險評估。",
+        sections: [
+          { title: "演講重點", text: "（待演講後補充：關於火山監測技術、地震預警系統的實務操作經驗...）" }
+        ],
+        highlights: [
+          "案例：阿蘇火山觀測",
+          "案例：熊本地震",
+          "在地應用：嘉南地區地震監測"
+        ],
+        insight: "理論與野外實務的結合是地球物理學家的核心能力。",
+        hasImagePlaceholder: true
+      }
+    },
+    {
+      id: 'sp3',
+      title: "深度學習與全自動化監測",
+      subtitle: "廖勿渝 博士 (Dr. Liao Wuyu)",
+      week: "Week 15",
+      tags: ["Deep Learning", "Automation"],
+      icon: <Mic2 className="w-6 h-6 text-blue-400" />,
+      color: "from-blue-500 to-cyan-600",
+      summary: "當 AI 成為地震學家的助手：從訊號偵測到自動化處理。",
+      content: {
+        intro: "廖勿渝博士將深入探討 AI 在地震學中的具體應用，特別是如何利用深度學習模型來自動化處理海量的連續地震波形數據。",
+        sections: [
+          { title: "演講重點", text: "（待演講後補充：關於神經網路模型架構、訓練數據集準備、自動化監測流程...）" }
+        ],
+        highlights: [
+          "震相自動挑選 (Automatic Phase Picking)",
+          "地震事件分類",
+          "即時預警系統優化"
+        ],
+        insight: "AI 不會取代地球物理學家，但會取代不會用 AI 的地球物理學家。",
+        hasImagePlaceholder: true
+      }
+    }
+  ];
+
+  let currentProjects = [];
+  if (activeTab === 'knowledge') currentProjects = knowledgeProjects;
+  if (activeTab === 'skills') currentProjects = skillProjects;
+  if (activeTab === 'speeches') currentProjects = speechProjects;
+
+  return (
+    <div className="min-h-screen bg-slate-900 text-slate-100 font-sans selection:bg-cyan-500 selection:text-white pb-20">
+      
+      {/* Navbar */}
+      <header className="fixed top-0 w-full z-40 bg-slate-900/80 backdrop-blur-md border-b border-slate-700">
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-gradient-to-tr from-cyan-400 to-blue-600 rounded-lg animate-pulse"></div>
+            <span className="text-xl font-bold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-400">
+              GEO-INTEL
+            </span>
+          </div>
+          <div className="text-sm text-slate-400 font-mono hidden sm:block">
+            Geophysics & AI Integration Portfolio
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <div className="pt-28 pb-12 px-4 max-w-7xl mx-auto">
+        
+        {/* Title Area */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-extrabold mb-4">
+            <span className="bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-blue-500">
+              Earth Digital Twin
+            </span>
+          </h1>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            整合學科知識與資料處理技能，構建地球物理的數位雙生系統。
+          </p>
+        </div>
+
+        {/* Tab Switcher */}
+        <div className="flex justify-center mb-12">
+          <div className="bg-slate-800 p-1 rounded-full border border-slate-700 inline-flex flex-wrap justify-center gap-2 sm:gap-0">
+            <button
+              onClick={() => setActiveTab('knowledge')}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                activeTab === 'knowledge'
+                  ? 'bg-cyan-500 text-white shadow-lg shadow-cyan-500/25'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <BookOpen className="w-4 h-4" />
+              學科知識模組
+            </button>
+            <button
+              onClick={() => setActiveTab('skills')}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                activeTab === 'skills'
+                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Wrench className="w-4 h-4" />
+              技能工具箱
+            </button>
+            <button
+              onClick={() => setActiveTab('speeches')}
+              className={`flex items-center gap-2 px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+                activeTab === 'speeches'
+                  ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Users className="w-4 h-4" />
+              大師開講
+            </button>
+          </div>
+        </div>
+
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+          {currentProjects.map((project) => (
+            <div 
+              key={project.id}
+              onClick={() => setSelectedCard(project)}
+              className="group relative bg-slate-800 rounded-2xl p-1 overflow-hidden cursor-pointer hover:-translate-y-2 transition-transform duration-300 border border-slate-700/50 hover:border-slate-600"
+            >
+              <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-300`}></div>
+              
+              <div className="relative h-full bg-slate-900 rounded-xl p-6 flex flex-col justify-between z-10">
+                <div>
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="p-3 bg-slate-800 rounded-lg group-hover:bg-slate-700 transition-colors border border-slate-700 group-hover:border-slate-600">
+                      {project.icon}
+                    </div>
+                    <span className="text-xs font-mono text-slate-500 border border-slate-700 px-2 py-1 rounded bg-slate-800/50">
+                      {project.week}
+                    </span>
+                  </div>
+                  
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {project.tags.map(tag => (
+                      <span key={tag} className="text-[10px] uppercase tracking-wider font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded-sm">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+
+                  <h3 className="text-xl font-bold mb-2 text-slate-100 group-hover:text-white transition-colors">{project.title}</h3>
+                  <p className="text-sm text-cyan-400 font-medium mb-3">{project.subtitle}</p>
+                  <p className="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-3">
+                    {project.summary}
+                  </p>
+                </div>
+                
+                <div className="flex items-center gap-2 text-sm font-medium text-slate-500 group-hover:text-white transition-colors mt-4 pt-4 border-t border-slate-800 group-hover:border-white/10">
+                  Read More <ArrowRight className="w-4 h-4" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Detail Modal */}
+      {selectedCard && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div 
+            className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
+            onClick={() => setSelectedCard(null)}
+          ></div>
+          
+          <div className="relative w-full max-w-4xl bg-slate-900 rounded-2xl shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200 border border-slate-700 flex flex-col max-h-[90vh]">
+            
+            {/* Modal Header */}
+            <div className={`shrink-0 h-32 bg-gradient-to-r ${selectedCard.color} p-8 flex items-end relative`}>
+              <button 
+                onClick={() => setSelectedCard(null)}
+                className="absolute top-4 right-4 p-2 bg-black/20 hover:bg-black/40 rounded-full text-white transition-colors backdrop-blur-md"
+              >
+                <X className="w-5 h-5" />
+              </button>
+              <div>
+                <div className="flex items-center gap-3 mb-2">
+                  <span className="px-2 py-1 bg-black/30 rounded text-xs font-mono text-white/90 border border-white/20">
+                    {selectedCard.week}
+                  </span>
+                  {selectedCard.tags.map(tag => (
+                    <span key={tag} className="px-2 py-1 bg-white/20 rounded text-xs font-bold text-white border border-white/20">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h2 className="text-3xl font-bold text-white shadow-black/50 drop-shadow-md">{selectedCard.title}</h2>
+                <p className="text-white/90 font-medium">{selectedCard.subtitle}</p>
+              </div>
+            </div>
+
+            {/* Modal Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                
+                {/* Left Column: Main Content */}
+                <div className="lg:col-span-2 space-y-8">
+                  
+                  {/* Intro */}
+                  <div>
+                    <h4 className="flex items-center gap-2 text-lg font-semibold text-white mb-3">
+                      <Database className="w-5 h-5 text-cyan-400" />
+                      概述 (Overview)
+                    </h4>
+                    <p className="text-slate-300 leading-relaxed text-lg">
+                      {selectedCard.content.intro}
+                    </p>
+                  </div>
+
+                  {/* Dynamic Sections */}
+                  {selectedCard.content.sections && selectedCard.content.sections.map((section, idx) => (
+                    <div key={idx} className="bg-slate-800/30 p-5 rounded-xl border border-slate-700/50">
+                      <h5 className="text-md font-bold text-cyan-200 mb-2 border-l-2 border-cyan-500 pl-3">
+                        {section.title}
+                      </h5>
+                      <div className="text-slate-400 leading-relaxed whitespace-pre-wrap">
+                        {section.text}
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* Image Display Block (New) */}
+                  {selectedCard.content.images && selectedCard.content.images.length > 0 && (
+                    <div className="space-y-4">
+                       <h4 className="flex items-center gap-2 text-lg font-semibold text-white mb-3">
+                        <ImageIcon className="w-5 h-5 text-cyan-400" />
+                        實驗紀錄 (Gallery)
+                      </h4>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {selectedCard.content.images.map((img, idx) => (
+                          <div key={idx} className="bg-slate-800 rounded-lg overflow-hidden border border-slate-700 group">
+                            <div className="aspect-video overflow-hidden">
+                              <img 
+                                src={img.url} 
+                                alt={img.caption}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            </div>
+                            <div className="p-2 text-center text-xs text-slate-400 bg-slate-900/50">
+                              {img.caption}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Image Placeholder Block (Legacy) */}
+                  {selectedCard.content.hasImagePlaceholder && !selectedCard.content.images && (
+                    <div className="border-2 border-dashed border-slate-600 rounded-xl p-8 flex flex-col items-center justify-center bg-slate-800/20 hover:bg-slate-800/40 transition-colors group">
+                      <div className="p-4 bg-slate-800 rounded-full mb-3 group-hover:scale-110 transition-transform">
+                        <ImageIcon className="w-8 h-8 text-slate-500 group-hover:text-cyan-400" />
+                      </div>
+                      <span className="text-slate-500 font-mono text-sm group-hover:text-cyan-400">
+                        [ 預留圖片位置：請提供圖片連結以進行替換 ]
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Highlights */}
+                  {selectedCard.content.highlights && (
+                    <div>
+                      <h4 className="flex items-center gap-2 text-lg font-semibold text-white mb-3">
+                        <TrendingUp className="w-5 h-5 text-emerald-400" />
+                        重點摘要 (Highlights)
+                      </h4>
+                      <ul className="grid gap-3">
+                        {selectedCard.content.highlights.map((item, idx) => (
+                          <li key={idx} className="flex items-center gap-3 bg-slate-800 p-3 rounded-lg border border-slate-700">
+                            <div className="w-2 h-2 rounded-full bg-emerald-400"></div>
+                            <span className="text-slate-300 text-sm font-medium">{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+
+                {/* Right Column: Data & Tools */}
+                <div className="space-y-6">
+                  
+                  {/* Insight Box */}
+                  <div className="bg-gradient-to-br from-slate-800 to-slate-900 p-5 rounded-xl border border-slate-700 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 p-4 opacity-10">
+                      <Zap className="w-16 h-16" />
+                    </div>
+                    <h5 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-2">Insight</h5>
+                    <p className="text-slate-200 italic font-medium leading-relaxed">
+                      "{selectedCard.content.insight || 'Exploring the depths of Earth science...'}"
+                    </p>
+                  </div>
+
+                  {/* Metrics Grid */}
+                  {selectedCard.content.data && (
+                    <div className="space-y-3">
+                      <h5 className="text-sm font-bold text-slate-500 uppercase tracking-wider">Key Metrics</h5>
+                      {selectedCard.content.data.map((item, idx) => (
+                        <div key={idx} className="bg-slate-800 p-4 rounded-xl border border-slate-700 flex justify-between items-center">
+                          <span className="text-slate-400 text-xs">{item.label}</span>
+                          <span className="text-lg font-bold text-cyan-400 font-mono">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Formula */}
+                  {selectedCard.content.formula && (
+                    <div className="bg-slate-800 p-4 rounded-xl border border-slate-700 text-center">
+                      <h5 className="text-xs text-slate-500 mb-2 uppercase">Equation</h5>
+                      <code className="text-xl font-mono text-yellow-400">
+                        {selectedCard.content.formula}
+                      </code>
+                    </div>
+                  )}
+
+                  {/* Calculator Tool */}
+                  {selectedCard.content.toolType === 'refraction_calc' && (
+                    <RefractionCalculator />
+                  )}
+
+                  {/* Link Button */}
+                  {selectedCard.link && (
+                    <a 
+                      href={selectedCard.link} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-3 bg-slate-700 hover:bg-cyan-600 text-white rounded-lg transition-all font-medium border border-slate-600 hover:border-cyan-500"
+                    >
+                      開啟資源連結 <ArrowRight className="w-4 h-4" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// 工具組件：折射波計算機
+const RefractionCalculator = () => {
+  const [v1, setV1] = useState(400);
+  const [v2, setV2] = useState(1500);
+  const [ti, setTi] = useState(0.02);
+
+  const calculateDepth = () => {
+    if (v2 <= v1) return "Error";
+    const numerator = ti * v1 * v2;
+    const denominator = 2 * Math.sqrt(Math.pow(v2, 2) - Math.pow(v1, 2));
+    return (numerator / denominator).toFixed(2);
+  };
+
+  return (
+    <div className="bg-slate-800 p-5 rounded-xl border border-slate-700">
+      <h4 className="flex items-center gap-2 text-sm font-bold text-white mb-4 uppercase tracking-wider">
+        <Calculator className="w-4 h-4 text-green-400" />
+        深度計算機 (Depth Tool)
+      </h4>
+      
+      <div className="space-y-3 mb-4">
+        <div className="flex justify-between items-center">
+          <label className="text-xs text-slate-500">V1 (m/s)</label>
+          <input 
+            type="number" 
+            value={v1}
+            onChange={(e) => setV1(Number(e.target.value))}
+            className="w-20 bg-slate-900 border border-slate-600 rounded px-2 py-1 text-right text-sm text-white focus:border-cyan-500 outline-none"
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <label className="text-xs text-slate-500">V2 (m/s)</label>
+          <input 
+            type="number" 
+            value={v2}
+            onChange={(e) => setV2(Number(e.target.value))}
+            className="w-20 bg-slate-900 border border-slate-600 rounded px-2 py-1 text-right text-sm text-white focus:border-cyan-500 outline-none"
+          />
+        </div>
+        <div className="flex justify-between items-center">
+          <label className="text-xs text-slate-500">Intercept (s)</label>
+          <input 
+            type="number" 
+            step="0.001"
+            value={ti}
+            onChange={(e) => setTi(Number(e.target.value))}
+            className="w-20 bg-slate-900 border border-slate-600 rounded px-2 py-1 text-right text-sm text-white focus:border-cyan-500 outline-none"
+          />
+        </div>
+      </div>
+
+      <div className="flex justify-between items-center bg-slate-900 p-3 rounded-lg border border-slate-700/50">
+        <span className="text-slate-400 text-xs font-medium">Depth (H):</span>
+        <span className="text-xl font-mono font-bold text-green-400">
+          {calculateDepth()} <span className="text-xs text-slate-600">m</span>
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default App;
